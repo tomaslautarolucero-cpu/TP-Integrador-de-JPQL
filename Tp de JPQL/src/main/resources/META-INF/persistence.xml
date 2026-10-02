@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
+             version="3.1">
+    <persistence-unit name="FacturacionPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>ar.edu.utn.facturacion.entidades.Usuario</class>
+        <class>ar.edu.utn.facturacion.entidades.Contacto</class>
+        <class>ar.edu.utn.facturacion.entidades.Domicilio</class>
+        <class>ar.edu.utn.facturacion.entidades.PuntoVenta</class>
+        <class>ar.edu.utn.facturacion.entidades.TipoMoneda</class>
+        <class>ar.edu.utn.facturacion.entidades.CondicionIva</class>
+        <class>ar.edu.utn.facturacion.entidades.Marca</class>
+        <class>ar.edu.utn.facturacion.entidades.Rubro</class>
+        <class>ar.edu.utn.facturacion.entidades.ListaPrecio</class>
+        <class>ar.edu.utn.facturacion.entidades.Cliente</class>
+        <class>ar.edu.utn.facturacion.entidades.Articulo</class>
+        <class>ar.edu.utn.facturacion.entidades.ListaPrecioArticulo</class>
+        <class>ar.edu.utn.facturacion.entidades.FacturaVenta</class>
+        <class>ar.edu.utn.facturacion.entidades.FacturaVentaDetalle</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/facturacion_db"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="tomaslucero10"/>
+
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>

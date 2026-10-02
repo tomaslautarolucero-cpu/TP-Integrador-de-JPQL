@@ -1,0 +1,169 @@
+﻿=========================================================
+TP GRUPAL 2 - CONSULTAS AVANZADAS CON JPQL
+=========================================================
+Unidad de persistencia: FacturacionPU
+Base de datos         : PostgreSQL
+
+---------------------------------------------------------
+CARGA DE DATOS DE PRUEBA
+---------------------------------------------------------
+     Base reinicializada con el juego de datos del TP:
+       3 usuarios | 2 puntos de venta | 2 rubros | 3 marcas
+       7 articulos (ART-006 sin marca, ART-007 nunca facturado)
+       4 clientes | 10 facturas (9 EMITIDA + 1 ANULADA)
+
+---------------------------------------------------------
+NIVEL 1 - CONSULTAS BASICAS Y PROYECCIONES
+---------------------------------------------------------
+[01] Todas las facturas de venta: 10 resultado(s)
+     #1 | 2026-01-05 00:00:00 | EMITIDA | $3630.0
+     #2 | 2026-01-10 00:00:00 | EMITIDA | $30250.0
+     #3 | 2026-01-15 00:00:00 | EMITIDA | $181500.0
+     #4 | 2026-01-20 00:00:00 | EMITIDA | $54450.0
+     #5 | 2026-01-25 00:00:00 | EMITIDA | $18150.0
+     #6 | 2026-02-02 00:00:00 | EMITIDA | $1815.0
+     #7 | 2026-02-10 00:00:00 | EMITIDA | $90750.0
+     #8 | 2026-02-15 00:00:00 | EMITIDA | $32065.0
+     #9 | 2026-03-01 00:00:00 | ANULADA | $181500.0
+     #10 | 2026-03-05 00:00:00 | EMITIDA | $6050.0
+
+[02] Proyeccion numero / fechaEmision / importeTotal: 10 resultado(s)
+     numero | fechaEmision | importeTotal
+     1 | 2026-01-05 00:00:00 | $3630.0
+     2 | 2026-01-10 00:00:00 | $30250.0
+     3 | 2026-01-15 00:00:00 | $181500.0
+     4 | 2026-01-20 00:00:00 | $54450.0
+     5 | 2026-01-25 00:00:00 | $18150.0
+     6 | 2026-02-02 00:00:00 | $1815.0
+     7 | 2026-02-10 00:00:00 | $90750.0
+     8 | 2026-02-15 00:00:00 | $32065.0
+     9 | 2026-03-01 00:00:00 | $181500.0
+     10 | 2026-03-05 00:00:00 | $6050.0
+
+[03] Articulos del rubro 'Electronica': 4 resultado(s)
+     ART-007 | Auriculares premium
+     ART-002 | Mouse inalambrico
+     ART-001 | Notebook 14"
+     ART-003 | Teclado mecanico
+
+[04] Facturas emitidas entre 2026-01-01 00:00:00 y 2026-03-31 00:00:00: 10 resultado(s)
+     #1 | 2026-01-05 00:00:00 | $3630.0
+     #2 | 2026-01-10 00:00:00 | $30250.0
+     #3 | 2026-01-15 00:00:00 | $181500.0
+     #4 | 2026-01-20 00:00:00 | $54450.0
+     #5 | 2026-01-25 00:00:00 | $18150.0
+     #6 | 2026-02-02 00:00:00 | $1815.0
+     #7 | 2026-02-10 00:00:00 | $90750.0
+     #8 | 2026-02-15 00:00:00 | $32065.0
+     #9 | 2026-03-01 00:00:00 | $181500.0
+     #10 | 2026-03-05 00:00:00 | $6050.0
+
+---------------------------------------------------------
+NIVEL 2 - CONDICIONALES COMBINADOS, TEXTO Y AGREGACIONES
+---------------------------------------------------------
+[05] Facturas EMITIDA sin anular y sobre $10000.0: 6 resultado(s)
+     #3 | $181500.0 | fechaAnulacion=null
+     #7 | $90750.0 | fechaAnulacion=null
+     #4 | $54450.0 | fechaAnulacion=null
+     #8 | $32065.0 | fechaAnulacion=null
+     #2 | $30250.0 | fechaAnulacion=null
+     #5 | $18150.0 | fechaAnulacion=null
+
+[06] Clientes con denominacion que contiene '%acme%' o cuitCuil que empieza con '20-%': 3 resultado(s)
+     ACME S.A. | CUIT/CUIL: 30123456789
+     Bruno Rossi | CUIT/CUIL: 20-98765432-1
+     Distribuidora del Sur | CUIT/CUIL: 20-12345678-9
+
+[07] Estados distintos registrados: 2 resultado(s) -> [ANULADA, EMITIDA]
+
+[08] Agregacion sobre facturas EMITIDA (count, sum, avg) en un solo objeto:
+     cantidad total  = 9
+     suma importes   = 418660.0
+     importe promedio= 46517.77777777778
+
+[09] Puntos de venta cuyo numero esta en [1, 2, 5]: 2 resultado(s)
+     Nro 1 | Sucursal Palermo
+     Nro 2 | Sucursal Belgrano
+
+---------------------------------------------------------
+NIVEL 3 - NAVEGACION DE ENTIDADES, JOINS Y SUBCONSULTAS
+---------------------------------------------------------
+[10] Facturas cargadas por el usuario 'admin': 7 resultado(s)
+     #1 | 2026-01-05 00:00:00 | $3630.0
+     #2 | 2026-01-10 00:00:00 | $30250.0
+     #3 | 2026-01-15 00:00:00 | $181500.0
+     #4 | 2026-01-20 00:00:00 | $54450.0
+     #5 | 2026-01-25 00:00:00 | $18150.0
+     #6 | 2026-02-02 00:00:00 | $1815.0
+     #7 | 2026-02-10 00:00:00 | $90750.0
+
+[11] Detalles de factura del punto de venta Nro 1: 6 resultado(s)
+     factura #1 | cantidad=1 | Harina 000 | subtotal=$3000.0
+     factura #2 | cantidad=1 | Mouse inalambrico | subtotal=$25000.0
+     factura #3 | cantidad=1 | Notebook 14" | subtotal=$150000.0
+     factura #4 | cantidad=1 | Teclado mecanico | subtotal=$45000.0
+     factura #5 | cantidad=5 | Harina 000 | subtotal=$15000.0
+     factura #6 | cantidad=1 | Boletin sin marca | subtotal=$1500.0
+
+[12] Articulos con su marca (LEFT JOIN, incluye los que no tienen): 7 resultado(s)
+     articulo | marca
+     Arroz 5kg | Generica
+     Auriculares premium | Sony
+     Boletin sin marca | (sin marca)
+     Harina 000 | Generica
+     Mouse inalambrico | Logitech
+     Notebook 14" | Sony
+     Teclado mecanico | Logitech
+
+[13] Facturas que contienen articulos de la marca 'Sony': 2 resultado(s)
+     #3 | $181500.0
+     #9 | $181500.0
+
+[14] Facturas con importeTotal estrictamente mayor al promedio general: 3 resultado(s)
+     #3 | $181500.0
+     #9 | $181500.0
+     #7 | $90750.0
+
+---------------------------------------------------------
+NIVEL 4 - AGRUPAMIENTO (GROUP BY) Y FILTROS DE GRUPO (HAVING)
+---------------------------------------------------------
+[15] Resumen por punto de venta (GROUP BY): 2 fila(s)
+     punto de venta | cantidad de facturas | suma facturada
+     Sucursal Belgrano | 4 | $310365.0
+     Sucursal Palermo | 6 | $289795.0
+
+[16] Usuarios de carga con mas de 5 facturas (HAVING): 1 resultado(s) -> [admin]
+
+[17] Unidades vendidas y subtotal por marca (GROUP BY): 3 fila(s)
+     marca | unidades vendidas | subtotal acumulado
+     Sony | 2 | $300000.0
+     Logitech | 6 | $170000.0
+     Generica | 7 | $23000.0
+
+---------------------------------------------------------
+NIVEL 5 - SUBCONSULTAS CORRELACIONADAS, EXISTS Y EXPRESIONES CONDICIONALES
+---------------------------------------------------------
+[18] Marcas con al menos un articulo facturado (EXISTS): 3 resultado(s)
+     M-GEN | Generica
+     M-LOG | Logitech
+     M-SNY | Sony
+
+[19] Articulos que nunca aparecen en un detalle de factura (NOT EXISTS): 1 resultado(s)
+     ART-007 | Auriculares premium
+
+[20] Facturas clasificadas por valor (CASE): 10 resultado(s)
+     numero | importeTotal | Categoria
+     9 | $181500.0 | ALTO VALOR
+     3 | $181500.0 | ALTO VALOR
+     7 | $90750.0 | ALTO VALOR
+     4 | $54450.0 | ALTO VALOR
+     8 | $32065.0 | MEDIO VALOR
+     2 | $30250.0 | MEDIO VALOR
+     5 | $18150.0 | MEDIO VALOR
+     10 | $6050.0 | BAJO VALOR
+     1 | $3630.0 | BAJO VALOR
+     6 | $1815.0 | BAJO VALOR
+
+
+=========================================================
+FIN DE LAS 20 CONSULTAS - todas finalizaron sin error

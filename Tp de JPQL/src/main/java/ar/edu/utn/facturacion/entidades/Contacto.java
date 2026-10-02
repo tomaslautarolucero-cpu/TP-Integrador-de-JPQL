@@ -1,0 +1,46 @@
+package ar.edu.utn.facturacion.entidades;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "contactos")
+public class Contacto extends EntityId {
+
+    @Column(length = 120)
+    private String email;
+
+    @Column(length = 30)
+    private String telefono;
+
+    @Column(length = 30)
+    private String celular;
+
+    public Contacto() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+}
